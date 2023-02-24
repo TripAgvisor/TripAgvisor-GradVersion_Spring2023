@@ -53,6 +53,8 @@ document.addEventListener("turbolinks:load", function() {  // the site uses turb
     if(e.target.getAttribute("class") == "yelp-link") return; // don't redirect if clicking on yelp link
     if(e.target.getAttribute("class") == "tag") return; // don't redirect if clicking on tag
     if(e.target.getAttribute("class") == "portal-experience-delete") return; // don't redirect if clicking on delete
+    if(e.target.getAttribute("class") == "portal-experience-bookmark-on") return; // don't redirect if clicking on bookmark
+    if(e.target.getAttribute("class") == "portal-experience-bookmark-off") return; // don't redirect if clicking on bookmark
     var idParts = this.closest(".portal-experience-outer-wrapper").id.split("-");
     var experienceId = idParts[3];
     window.location.replace("/experience/" + experienceId);
@@ -151,6 +153,18 @@ document.addEventListener("turbolinks:load", function() {  // the site uses turb
     }
   });
   
+  // bookmark toggle
+  $(document).off('click', '.portal-experience-bookmark-off').on('click', '.portal-experience-bookmark-off', function(){
+    var bookmark = document.getElementById(this.id);
+    bookmark.classList = "portal-experience-bookmark-on";
+    bookmark.innerHTML = "&#9733";
+  });
+  
+  $(document).off('click', '.portal-experience-bookmark-on').on('click', '.portal-experience-bookmark-on', function(){
+    var bookmark = document.getElementById(this.id);
+    bookmark.classList = "portal-experience-bookmark-off";
+    bookmark.innerHTML = "&#9734";
+  });
   
   // delete an experience comment
   $(document).off('click', '.portal-experience-comment-delete').on('click', '.portal-experience-comment-delete', function(){
