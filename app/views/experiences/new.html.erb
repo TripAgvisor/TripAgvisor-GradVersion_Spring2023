@@ -11,10 +11,18 @@
                 <td class="experience-edit-label">Experience:</td>
                 <td><%= text_area :experience, :experience, :required => true%><div class="experience-edit-field-tips">&nbsp;</div></td>
             </tr>
-            <tr>
-                <td class="experience-edit-label">Image:</td>
-                <td><%= file_field_tag :image, class: "form-control" %>
+            <!-- --------------------------------- Blain will start working here! --------------------------------- -->
+            <!--<tr>-->
+            <!--    <td class="experience-edit-label">Image:</td>-->
+            <!--    <td><%= file_field_tag :image, class: "form-control" %></td>-->
+            <!--</tr>-->
+            
+            <tr> <!-- Current issue is that it is not displaying the multiple images -->
+                <td class="experience-edit-label">Image(s):</td>
+                <td><input type="file" id="files" name="files" multiple><br><br></td> 
+                 <input type="submit"> 
             </tr>
+            <!-- --------------------------------- Blain will stop working here! --------------------------------- -->
             <tr>
                 <td class="experience-edit-label">Rating:</td>
                 <td><fieldset class="rating">
