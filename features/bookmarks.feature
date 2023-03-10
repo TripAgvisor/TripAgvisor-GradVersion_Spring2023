@@ -9,7 +9,7 @@ Scenario: Test for checking bookmark icon
 
 Scenario: Test for bookmarking an experience
     Given I am on the singapore page
-    When I click on bookmark icon 
+    When I click on the bookmark icon # replace with icon name
     Then I should see class "bookmarked"
     
 Scenario: Test for viewing bookmark tab under profile
