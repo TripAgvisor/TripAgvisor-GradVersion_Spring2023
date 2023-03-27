@@ -11,6 +11,7 @@ Rails.application.routes.draw do
   resource :session, only: %i[create destroy]
   resources :reviews
   resources :users
+  resources :photos, only: [:new, :create, :index, :edit, :update]
   resources :programs do
     resources :participants
   end

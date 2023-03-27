@@ -295,4 +295,31 @@ class ExperiencesController < ApplicationController
     def experience_params
         params.require(:experience).permit(:title, :experience, :rating, :tags, :location, :image)
     end
+    
+    
+    
+    def index
+        @photos = Photo.all
+    end
+    
+    def new_photo
+        @photo = Photo.new
+    end
+    
+    def create_photo
+        @photo = Photo.new(photo_params)
+        if @photo.save
+            flash[:success] = 'Photo added!'
+            redirect_to photos_path
+        else
+            render 'new'
+        end
+    end
+    
+    private
+    def photo_params
+        params.require(:photo).permit(:title, :image)
+    end 
+    
+    
 end

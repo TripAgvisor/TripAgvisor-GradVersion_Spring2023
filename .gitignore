@@ -45,3 +45,5 @@ yarn-debug.log*
 reviews/vendor/bundle
 
 /config/credentials/production.key
+
+public/uploads
