@@ -86,3 +86,6 @@ gem 'tzinfo-data', platforms: %i[mingw mswin x64_mingw jruby]
 gem 'image_processing', '>= 1.12.2'
 
 gem 'aws-sdk-s3', '~> 1.118'
+
+gem "shrine", "~> 3.3"
+# gem 'image_processing', '~> 1.12', '>= 1.12.1'
