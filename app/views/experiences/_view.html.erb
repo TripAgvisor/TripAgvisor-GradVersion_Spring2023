@@ -25,11 +25,17 @@
 					</div>
 					<% end end %>
 			</div>
+		
+		
+		
 			<div class="portal-experience-photo">
-				<% if locals[:experience].image.attached? %>
-					<%= image_tag locals[:experience].image, style: "width: 400px; height: auto;" %>
+				<% if not locals[:experience].post_attachments.nil? %>
+					<%= image_tag locals[:experience].post_attachments.thumb_image.url, style: "width: 400px; height: auto;" %>
 				<%end%>
 			</div>
+			
+			
+			
 			</br>
 			<div class="portal-experience-description">
 				<%= locals[:experience].experience%>

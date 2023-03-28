@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 Rails.application.routes.draw do
+  resources :post_attachments
+  resources :posts
   get 'programs', to: 'programs#index'
   get 'reviews/index'
   get 'reviews/leave_review/:id', to: 'reviews#leave_review', as: 'leave_review'
