@@ -86,3 +86,4 @@ gem 'tzinfo-data', platforms: %i[mingw mswin x64_mingw jruby]
 gem 'image_processing', '>= 1.12.2'
 
 gem 'aws-sdk-s3', '~> 1.118'
+gem 'carrierwave', '>= 3.0.0.beta', '< 4.0'

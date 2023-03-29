@@ -4,11 +4,14 @@ class Experience < ApplicationRecord
   belongs_to :program
   belongs_to :user
   has_many :experience_comments
+  has_many :images
   has_one :yelp_location
   has_one_attached :image
 
   attr_accessor :comments, :totalComments, :average_rating, :hasUserBookmarked
-
+  mount_uploader :image, ImageUploader
+  mount_uploaders :images, ImageUploader
+  serialize :images, JSON # If you use SQLite, add this line.
   def tagArray
     if tags.nil?
       tagArray = nil
