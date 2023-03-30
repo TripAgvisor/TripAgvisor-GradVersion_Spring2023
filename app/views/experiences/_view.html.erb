@@ -25,11 +25,32 @@
 					</div>
 					<% end end %>
 			</div>
+			
+			
+			
+			<!--#########################################################-->
 			<div class="portal-experience-photo">
-				<% if locals[:experience].image.attached? %>
-					<%= image_tag locals[:experience].image, style: "width: 400px; height: auto;" %>
+				
+				<% if locals[:experience].image? %>
+					<%= image_tag locals[:experience].image.url, style: "width: 400px; height: auto;" %>
 				<%end%>
+				
+				
+				<!--< % if locals[:experience].images? %>-->
+				<!--  <ul>-->
+				<!--    < % locals[:experience].images.each do |image| %>-->
+				<!--      <li>< %= link_to(image_tag(image.thumb.url, alt: 'Image'), image.url, target: '_blank') %></li>-->
+				<!--    < % end %>-->
+				<!--  </ul>-->
+				<!--< % end %>-->
+				
+				
+				<!--<h>HELLO</h>-->
 			</div>
+			
+			<!--#########################################################-->
+			
+			
 			</br>
 			<div class="portal-experience-description">
 				<%= locals[:experience].experience%>

@@ -6,6 +6,7 @@ Rails.application.configure do
   # config.hosts << "389763a4bd934fd2b31f81763dda423c.vfs.cloud9.ap-northeast-1.amazonaws.com"
   # Settings specified here will take precedence over those in config/application.rb.
 
+
   # In the development environment your application's code is reloaded on
   # every request. This slows down response time but is perfect for development
   # since you don't have to restart the web server when you make code changes.
@@ -68,4 +69,6 @@ Rails.application.configure do
   config.file_watcher = ActiveSupport::EventedFileUpdateChecker
 
   config.action_mailer.default_url_options = { host: 'localhost', port: 3000 }
+  
+  require 'carrierwave/orm/activerecord'
 end

@@ -23,6 +23,7 @@ class ExperiencesController < ApplicationController
     end
     
     def create
+        params.require(:experience).permit(:experience, :rating, :tags, :title, {images: []})
         if(params[:experience][:experience].blank? || params[:experience][:rating].blank?) # experience and rating are required
             flash[:alert] = "Cannot create experience"
             redirect_to portal_path(params[:id]) and return
@@ -36,11 +37,11 @@ class ExperiencesController < ApplicationController
         end
         
         newExperience = Experience.create(:title => params[:experience][:title], :experience => params[:experience][:experience], :rating => params[:experience][:rating], :tags => tagArrayFixed, :user_id => current_user.id, :program_id => params[:id])
-        
         if params[:image]
-            newExperience.image.attach(params[:image])
+            newExperience.image = params[:image]
         end
-         flash[:notice] = "Experience was successfully created."
+        newExperience.save!
+        flash[:notice] = "Experience was successfully created."
      
 
         if(params.has_key?(:yelp_id))
