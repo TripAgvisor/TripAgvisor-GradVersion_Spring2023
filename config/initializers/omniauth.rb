@@ -1,5 +1,4 @@
 # frozen_string_literal: true
-
 Rails.application.config.middleware.use OmniAuth::Builder do
   config = YAML.load(File.open("#{Rails.root}/config/settings.yml"))
   OmniAuth.config.allowed_request_methods = %i[post get]

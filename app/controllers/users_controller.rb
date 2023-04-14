@@ -1,5 +1,4 @@
 # frozen_string_literal: true
-
 class UsersController < ApplicationController
   before_action :requireAdmin, except: [:show]
   
@@ -112,6 +111,25 @@ class UsersController < ApplicationController
       user.banned = true
       user.save
       flash[:notice] = "#{user.name} has been banned."
+      
+      # Initialize the Gmail API client
+      gmail_client = Google::Apis::GmailV1::GmailService.new
+      gmail_client.client_options.application_name = 'Project606'
+      gmail_client.authorization = Google::Auth::UserRefreshCredentials.new(
+        client_id: Google::Auth::ClientId.from_file('path/to/client_secret.json'),
+        token_store: Google::Auth::Stores::FileTokenStore.new(file: 'path/to/credentials.yaml'),
+        scope: Google::Apis::GmailV1::AUTH_GMAIL_SEND
+      )
+  
+      # Compose and send the email
+      message = Google::Apis::GmailV1::Message.new
+      message.raw = Base64.urlsafe_encode64(
+        "To: #{user.email}" +
+        "Subject: Your Have Been Banned\r\n\r\n" +
+        "Your email content here"
+      )
+      gmail_client.send_user_message('me', message)
+    
     end
     redirect_to users_path
   end
