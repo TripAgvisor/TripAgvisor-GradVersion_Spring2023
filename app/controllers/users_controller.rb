@@ -6,7 +6,7 @@ class UsersController < ApplicationController
   def show
     @user = User.find(params[:id])
     @experiences = @user.experiences
-  end 
+  end
   
   def requireAdmin
     if logged_in?
@@ -126,6 +126,7 @@ class UsersController < ApplicationController
     else
       user.banned = true
       user.save
+      BanEmailMailer.banned(user, params[:ban_reason]).deliver_now
     end
     respond_to do |format|
       format.html { redirect_to request.referer, notice: "#{user.name} has been banned." }
