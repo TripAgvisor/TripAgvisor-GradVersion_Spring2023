@@ -25,3 +25,15 @@ Scenario: User uploads an invalid file type
     And I select an invalid file type to upload
     And I press "Save"
     # Then I should see the "warning" flash message with "Invalid file format. Only JPEG, PNG, and GIF images are allowed."
+
+
+Scenario: View images in a modal
+    Given I am on the singapore page
+    When I click on an image for an experience that has multiple images
+    Then I should see a modal popup with the image I clicked on
+    And I should be able to close the modal by clicking the close button or outside the modal
+
+Scenario: View single image in full screen
+    Given I am on the singapore page
+    When I click on an image for an experience that has only one image
+    Then I should see the image in full screen

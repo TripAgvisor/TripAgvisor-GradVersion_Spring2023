@@ -15,8 +15,9 @@
 
 
 <div class="gallery">
-  <% if @experiences.size == 0 then %><div>No images found for this program</div>
-  <% else %>
+  <% if @experiences.size == 0 then %>
+    <div>No images found for this program</div>
+  <% elsif @experiences.any? { |e| e.images.attached? } %>
     <% @experiences.each do |experience| %>
       <% if experience.images.attached? %>
         <% experience.images.each do |image| %>
@@ -24,8 +25,11 @@
         <% end %>
       <% end %>
     <% end %>
+  <% else %>
+    <div>No images found for this program</div>
   <% end %>
 </div>
+
 
 <style>
   .gallery {
