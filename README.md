@@ -34,6 +34,25 @@ Email me at bjirka@tamu.edu if you have any questions or problems.
 6. Sarah Sotelo <slsotelo@tamu.edu>
 
 
+---
+
+# Spring 2023
+
+
+### Project Description
+***Experience Recommendation / Review System:*** This was a legacy (legacy project). Graduate student team. We worked on this as a part of the Spring 2023 semester.
+
+### Team Members
+1. Blain Judkins
+2. Kylee Friederichs
+3. Parul Damahe
+4. Tejasri Swaroop Boppana
+5. Yijin Fang
+6. Yu-Hsi Lin
+
+
+
+
 ## Installation Instructions
 
 Create a [AWS Cloud9 instance](https://aws.amazon.com/cloud9/), which automatically creates an EC2 instance. We found that this was the easiest way to get this bloated legacy project up and running quickly. Cloud9 comes installed with rvm and some other cool dependencies. This is the way to go, I promise.
