@@ -56,7 +56,14 @@ Email me at bjirka@tamu.edu if you have any questions or problems.
 ## Installation Instructions
 
 Create a [AWS Cloud9 instance](https://aws.amazon.com/cloud9/), which automatically creates an EC2 instance. We found that this was the easiest way to get this bloated legacy project up and running quickly. Cloud9 comes installed with rvm and some other cool dependencies. This is the way to go, I promise.
+---
 
+# Spring 2023 update:
+After cloning the repository and having cd into it, running `./setup.sh`should complete all of the necessary installations. After this completes, proceed to the next section. 
+* Note that this does assume that you are setting up with AWS Cloud9. If you are setting up locally (for reasons such as wanting to test with Selenium), the setup.sh file can be modified to use commands appropriate to your enviroment; this includes replacing `sudo yum` with `sudo apt-get` or something similar for installing.
+
+
+# Alternatively, you can follow these older documentation steps: 
 Complete the following steps to get your environment up and running:
 ```
 npm install -g yarn  
@@ -64,15 +71,16 @@ rvm install ruby-3.1.3 (or rbenv install 3.1.3)
 rvm use ruby-3.1.3 --default (or rbenv global 3.1.3) 
 gem install rails  
 sudo apt-get install postgresql postgresql-client libpq5 libpq-dev  
-git clone https://github.com/tamu-edu-students/UMAaaS.git
-cd UMAaaS
+git clone https://github.com/TripAgvisor/TripAgvisor-GradVersion_Spring2023.git
+cd TripAgvisor-GradVersion_Spring2023
 gem install bundler
 bundle install
 yarn install
 rails db:migrate
 rails server
 ```
-
+---
+# After the installations ... (the "next" section)
 - Click the address in the window that pops up in the upper right corner of the terminal window
 - You will get an error message telling you to add a line to your environment configuration. Copy the given line and paste it in /tripAgvisor/config/environments/development.rb (replace line 2 with the given line)
 - In the terminal press Ctrl+c to stop the server, then type 'rails server' to start it again. Refresh the page that had the error and it should be working now. (Normally, you don't have to stop and restart the server after changes, just refresh your page)
@@ -100,10 +108,14 @@ GOOGLE_CLIENT_SECRET=INSERT GOOGLE CLIENT SECRET HERE
 
 Your app should be up and running after this. Apologies for any technical atrocities you may encounter and good luck! 
 
-### Addiitonal Notes for Testing 
+---
+
+### Additonal Notes for Testing 
 The tests (especially the cucumber tests) use Selenium. But AWS Cloud 9 does not support Selenium since it does not support any kind of browsers. So we had to deploy the application on our local machine to implement and run tests. Hence, we would suggest to use the same procedure as mentioned above to deploy the app on local machine instead of AWS Cloud 9. The exact commands for installation might vary based on the operating system you are using. This will not cause any issues. 
 
 ### Useful Resources
 - [Connecting VSCode to Cloud9](https://medium.com/@mahantya/access-your-aws-cloud9-ec2-instance-from-vs-code-over-ssh-ee1f5ea259ff)
 - [Prevent EC2 from randomizing IP on shutdown](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/elastic-ip-addresses-eip.html#using-instance-addressing-eips-allocating)
 
+### Notes for Images
+Images are being stored in an Amazon s3 bucket.
