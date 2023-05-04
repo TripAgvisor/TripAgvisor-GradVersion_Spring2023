@@ -80,7 +80,7 @@ rails db:migrate
 rails server
 ```
 ---
-# After the installations ... (the "next" section)
+## After the installations ... (the "next" section)
 - Click the address in the window that pops up in the upper right corner of the terminal window
   -- If a link does not show up after running `rails s` (same as `rails server`) or running the `setup.sh` file that should automatically run `rails server`, click "Preview" up in the ribbon (next to the "run" button) > "Preview running application". Once you see this tab open, you should press the "pop out" button in the top right (next to the browser button) to open the application in a new tab.
 - You will get an error message telling you to add a line to your environment configuration. Copy the given line and paste it in /tripAgvisor/config/environments/development.rb (replace line 2 with the given line)
