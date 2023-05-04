@@ -87,13 +87,13 @@ rails server
 - In the terminal press Ctrl+c to stop the server, then type `rails server` to start it again. Refresh the page that had the error and it should be working now. (Normally, you don't have to stop and restart the server after changes, just refresh your page)
 - To set up Google auth, Go to the [Google Cloud Console](https://console.developers.google.com/). You may need to create a new project. Create credentials for a new OAuth Client ID. In the consent screen, select 'External' as the user type. Fill in the remaining info (the authorized domain and all that jazz can be changed later, if you don't know it currently).
 - After completing the consent screen (if you had to), create credentials for a new OAuth Client ID once again. Choose web application as the application type.
-- Insert your hosted site URL under the Authorized JavaScript origins. Example:
+- Insert your hosted site URL (same as your config.hosts url) under the Authorized JavaScript origins. Example:
 ```
 https://999663bc4eee4a0cb47c75a9aaa9268b.vfs.cloud9.us-east-1.amazonaws.com
 AND/OR
 https://tripagvisor2.herokuapp.com
 ```
-- Insert your hosted site URL (same as "https://" + your config.hosts url) + "/auth/google_oauth2/callback" as Authorized redirect URIs. Example:
+- Insert your hosted site URL + "/auth/google_oauth2/callback" as Authorized redirect URIs. Example:
 ```
 https://999663bc4eee4a0cb47c75a9aaa9268b.vfs.cloud9.us-east-1.amazonaws.com/auth/google_oauth2/callback
 AND/OR
