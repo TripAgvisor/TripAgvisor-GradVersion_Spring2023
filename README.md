@@ -82,6 +82,7 @@ rails server
 ---
 # After the installations ... (the "next" section)
 - Click the address in the window that pops up in the upper right corner of the terminal window
+  -- If a link does not show up after running `rails s` (same as `rails server`) or running the `setup.sh` file that should automatically run `rails server`, click "Preview" up in the ribbon (next to the "run" button) > "Preview running application". Once you see this tab open, you should press the "pop out" button in the top right (next to the browser button) to open the application in a new tab.
 - You will get an error message telling you to add a line to your environment configuration. Copy the given line and paste it in /tripAgvisor/config/environments/development.rb (replace line 2 with the given line)
 - In the terminal press Ctrl+c to stop the server, then type 'rails server' to start it again. Refresh the page that had the error and it should be working now. (Normally, you don't have to stop and restart the server after changes, just refresh your page)
 - To set up Google auth, Go to the [Google Cloud Console](https://console.developers.google.com/). You may need to create a new project. Create credentials for a new OAuth Client ID. In the consent screen, select 'External' as the user type. Fill in the remaining info (the authorized domain and all that jazz can be changed later, if you don't know it currently).
@@ -109,6 +110,8 @@ GOOGLE_CLIENT_SECRET=INSERT GOOGLE CLIENT SECRET HERE
 Your app should be up and running after this. Apologies for any technical atrocities you may encounter and good luck! 
 
 ---
+### Notes for viewing the application
+After running `rails s` or `rails server`, you should be able to see a link popup in the terminal that allows you to open the application. If it doesn't show up, just click "Preview" up in the ribbon (next to the "run" button) > "Preview running application". Once you see this tab open, you should press the "pop out" button in the top right (next to the browser button) to open the application in a new tab.
 
 ### Additonal Notes for Testing 
 The tests (especially the cucumber tests) use Selenium. But AWS Cloud 9 does not support Selenium since it does not support any kind of browsers. So we had to deploy the application on our local machine to implement and run tests. Hence, we would suggest to use the same procedure as mentioned above to deploy the app on local machine instead of AWS Cloud 9. The exact commands for installation might vary based on the operating system you are using. This will not cause any issues. 
