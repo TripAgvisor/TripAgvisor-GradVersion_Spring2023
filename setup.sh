@@ -102,6 +102,8 @@ else
   exit 1
 fi
 
+rails db:create
+
 echo -e "\033[32mInstalling Yarn packages with yarn install...\033[0m"
 yarn install
 if [ $? -eq 0 ]; then
@@ -120,7 +122,7 @@ else
   exit 1
 fi
 
-
+rails db:seed
 
 sudo yum install -y ImageMagick
 
