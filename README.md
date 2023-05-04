@@ -100,6 +100,9 @@ GOOGLE_CLIENT_SECRET=INSERT GOOGLE CLIENT SECRET HERE
 
 Your app should be up and running after this. Apologies for any technical atrocities you may encounter and good luck! 
 
+### Addiitonal Notes for Testing 
+The tests (especially the cucumber tests) use Selenium. But AWS Cloud 9 does not support Selenium since it does not support any kind of browsers. So we had to deploy the application on our local machine to implement and run tests. Hence, we would suggest to use the same procedure as mentioned above to deploy the app on local machine instead of AWS Cloud 9. The exact commands for installation might vary based on the operating system you are using. This will not cause any issues. 
+
 ### Useful Resources
 - [Connecting VSCode to Cloud9](https://medium.com/@mahantya/access-your-aws-cloud9-ec2-instance-from-vs-code-over-ssh-ee1f5ea259ff)
 - [Prevent EC2 from randomizing IP on shutdown](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/elastic-ip-addresses-eip.html#using-instance-addressing-eips-allocating)
