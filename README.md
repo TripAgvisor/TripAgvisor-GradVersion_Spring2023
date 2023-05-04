@@ -50,20 +50,20 @@ Email me at bjirka@tamu.edu if you have any questions or problems.
 5. Yijin Fang
 6. Yu-Hsi Lin
 
+---
 
 
-
-## Installation Instructions
+# Installation Instructions
 
 Create a [AWS Cloud9 instance](https://aws.amazon.com/cloud9/), which automatically creates an EC2 instance. We found that this was the easiest way to get this bloated legacy project up and running quickly. Cloud9 comes installed with rvm and some other cool dependencies. This is the way to go, I promise.
 ---
 
-# Spring 2023 update:
+## Spring 2023 update:
 After cloning the repository and having cd into it, running `./setup.sh`should complete all of the necessary installations. After this completes, proceed to the next section. 
 * Note that this does assume that you are setting up with AWS Cloud9. If you are setting up locally (for reasons such as wanting to test with Selenium), the setup.sh file can be modified to use commands appropriate to your enviroment; this includes replacing `sudo yum` with `sudo apt-get` or something similar for installing.
 
 
-# Alternatively, you can follow these older documentation steps: 
+## Alternatively, you can follow these older documentation steps: 
 Complete the following steps to get your environment up and running:
 ```
 npm install -g yarn  
