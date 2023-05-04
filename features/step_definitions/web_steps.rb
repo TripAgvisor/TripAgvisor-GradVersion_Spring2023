@@ -594,19 +594,47 @@ end
 #   end
 # end
 
+
+
+
+When("I click on an image for an experience that has multiple images") do
+  # Assume there is at least one experience with multiple images on the page
+  first('.modalLink').click
+end
+
+Then("I should see a modal popup with the image I clicked on") do
+  expect(page).to have_css('#myModal', visible: true)
+  expect(page).to have_css('.modal-image[src]')
+end
+
+And("I should be able to close the modal by clicking the close button or outside the modal") do
+  find('.modal').click # Click outside the modal to close it
+  expect(page).to have_css('#myModal', visible: false)
+
+  first('.modalLink').click # Open the modal again
+  find('.close').click # Click the close button to close it
+  expect(page).to have_css('#myModal', visible: false)
+end
+
+
+
+When("I click on an image for an experience that has only one image") do
+  # Assume there is at least one experience with only one image on the page
+  first('.carousel-item').click
+end
+
+Then("I should see the image in full screen") do
+  expect(page).to have_css('.carousel-item.active img.full-screen[src]')
+end
+
+
+
+
 ###############################################################
 
 # unique GALLERY steps
 
-## TODO**********
-# When(/^I click on the "Gallery" tab$/) do
-#   # Click on the "Gallery" tab on the program page
-# end
 
-## TODO**********
-# Then(/^I should see a gallery of images with the title "(.*?)" and "(.*?)"$/) do |program_name, image_count|
-#   # Check that the gallery has the correct title and number of images
-# end
 
 And(/^I should see all (\d+) images related to the program$/) do |image_count|
   # Check that all the images related to the program are displayed in the gallery
@@ -620,10 +648,7 @@ And(/^I should see all (\d+) images related to the program$/) do |image_count|
   end
 end
 
-## TODO**********
-# Then(/^I should see a message that says "No images found for (.*?)"$/) do |program_name|
-#   # Check that the "No images found" message is displayed in the gallery
-# end
+
 
 And(/^I should not see any images in the gallery$/) do
   # Check that the gallery does not display any images
@@ -634,3 +659,22 @@ And(/^I should not see any images in the gallery$/) do
   end
 end
 
+
+
+Then("I should see a gallery of images with the title {string} and {string}") do |gallery_title, images_count|
+  expect(page).to have_css('.gallery')
+  expect(page).to have_content(gallery_title)
+  expect(page).to have_content(images_count)
+end
+
+Then("I should see all {int} images related to the program") do |images_count|
+  expect(page).to have_css('.gallery-image', count: images_count)
+end
+
+Then("I should see a message that says {string}") do |message|
+  expect(page).to have_content(message)
+end
+
+Then("I should not see any images in the gallery") do
+  expect(page).not_to have_css('.gallery-image')
+end

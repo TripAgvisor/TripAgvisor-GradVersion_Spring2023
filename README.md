@@ -34,6 +34,25 @@ Email me at bjirka@tamu.edu if you have any questions or problems.
 6. Sarah Sotelo <slsotelo@tamu.edu>
 
 
+---
+
+# Spring 2023
+
+
+### Project Description
+***Experience Recommendation / Review System:*** This was a legacy (legacy project). Graduate student team. We worked on this as a part of the Spring 2023 semester.
+
+### Team Members
+1. Blain Judkins
+2. Kylee Friederichs
+3. Parul Damahe
+4. Tejasri Swaroop Boppana
+5. Yijin Fang
+6. Yu-Hsi Lin
+
+
+
+
 ## Installation Instructions
 
 Create a [AWS Cloud9 instance](https://aws.amazon.com/cloud9/), which automatically creates an EC2 instance. We found that this was the easiest way to get this bloated legacy project up and running quickly. Cloud9 comes installed with rvm and some other cool dependencies. This is the way to go, I promise.
@@ -80,6 +99,9 @@ GOOGLE_CLIENT_SECRET=INSERT GOOGLE CLIENT SECRET HERE
 ```
 
 Your app should be up and running after this. Apologies for any technical atrocities you may encounter and good luck! 
+
+### Addiitonal Notes for Testing 
+The tests (especially the cucumber tests) use Selenium. But AWS Cloud 9 does not support Selenium since it does not support any kind of browsers. So we had to deploy the application on our local machine to implement and run tests. Hence, we would suggest to use the same procedure as mentioned above to deploy the app on local machine instead of AWS Cloud 9. The exact commands for installation might vary based on the operating system you are using. This will not cause any issues. 
 
 ### Useful Resources
 - [Connecting VSCode to Cloud9](https://medium.com/@mahantya/access-your-aws-cloud9-ec2-instance-from-vs-code-over-ssh-ee1f5ea259ff)

@@ -1,358 +1,358 @@
-    <div class="portal-experience-wrapper" id="test">
-     	<div class="portal-experience">
-		 	<div class="portal-experience-title">
-				<%= locals[:experience].title %>
-				<div class="portal-experience-icons">			
-					<div class = "bookmark-experience">
-						<div class="<%= if current_user.id then "bookmark-yes" end %>
-							<%= if locals[:experience].hasUserBookmarked == 1 then "bookmarked" end %>" id="experience-bookmark-<%= locals[:experience].id %>">
-							<%= locals[:experience].hasUserBookmarked %>
-						</div>
-					</div>
-					<div>
-						<%if current_user.admin || locals[:experience].user_id == current_user.id %><div class="portal-experience-delete" id="portal-experience-delete-<%= locals[:experience].id %>">&#10006; </div><% end %>
-					</div>
-				</div>
-			</div>
-			
-			<% if not locals[:experience].tagArray.nil? %>
-			<div class="portal-experience-tags">
-				<% locals[:experience].tagArray.each do |tag| %>
-					<div class="portal-experience-tag">
-						#<%= tag %>
-					</div>
-				<% end %>
-			</div>
-			<% end %>
-
-		 <style>
-		    .portal-experience-wrapper {
-			    position: relative;
-			}
-			
-			.center {
-			    display: flex;
-			    justify-content: center;
-			    align-items: center;
-			    margin: 0 auto;
-			}
-			
-			.carousel-container {
-			    display: flex;
-			    justify-content: center;
-			    align-items: center;
-			    flex-direction: column;
-			    height: 100%;
-			}
-			
-			.carousel-inner {
-			    display: flex;
-			    justify-content: center;
-			    align-items: center;
-			    width: 400px;
-			    height: 400px;
-			    overflow: hidden;
-			}
-			
-			.carousel-item {
-			    position: relative;
-			    text-align: center;
-			    transform: translate(-50%, 0%);
-			}
-			
-			.carousel-item img {
-			    max-height: 100%;
-			    max-width: 100%;
-			    object-fit: contain;
-			    background-color: black;
-			    margin: auto;
-			    display: block;
-			    position: absolute;
-			    top: 50%;
-			    left: 50%;
-			    transform: translate(-50%, -50%);
-			}
-			
-			.carousel-item:after {
-			    content: '';
-			    display: block;
-			    padding-top: 100%;
-			}
-			
-			.carousel-item::before {
-			    content: "";
-			    position: absolute;
-			    top: 0;
-			    left: 0;
-			    width: 100%;
-			    height: 100%;
-			    background-color: black;
-			    z-index: -1;
-			}
-			
-			.carousel-wrap {
-			    display: flex;
-			    justify-content: center;
-			    align-items: center;
-			    height: 100%;
-			}
-			
-			.carousel-control-prev,
-			.carousel-control-next {
-			    position: absolute;
-			    width: 30px;
-			    height: 30px;
-			    display: flex;
-			    flex-direction: column;
-			    justify-content: center;
-			    align-items: center;
-			    background-color: rgba(0, 0, 0, 0.5);
-			    color: white;
-			    font-size: 1.5rem;
-			    border: none;
-			    cursor: pointer;
-			    opacity: 0.5;
-			    transition: opacity 0.2s ease-in-out;
-			    z-index: 1;
-			    border-radius: 50%;
-			    top: 50%;
-			    transform: translateY(-50%);
-			}
-			
-			.carousel-control-prev:hover,
-			.carousel-control-next:hover {
-			    opacity: 1;
-			}
-			
-			.carousel-control-prev {
-			    margin-left: -35px;
-			}
-			
-			.carousel-control-next {
-			    margin-right: -35px;
-			}
-			
-			/* Modal */
-			.modal {
-			    display: none;
-			    position: fixed;
-			    z-index: 2;
-			    left: 0;
-			    top: 0;
-			    width: 100%;
-			    height: 100%;
-			    overflow: auto;
-			    background-color: rgba(0,0,0,0.9);
-			}
-			
-			.modal-content {
-			    background-color: #fefefe;
-			    margin: 5% auto;
-			    padding: 20px;
-			    border: 1px solid #888;
-			    width: 80%;
-			    max-width: 700px;
-			}
-			
-			.close {
-			    color: #aaaaaa;
-			    float: right;
-			    font-size: 28px;
-			    font-weight: bold;
-			}
-			
-			
-						
-			.close:hover,
-			.close:focus {
-			  color: #000;
-			  text-decoration: none;
-			  cursor: pointer;
-			}
-			
-			/* Responsive Images in Modal */
-			.modal-content img {
-			  max-width: 100%;
-			  height: auto;
-			}
-
-			.flag-elements {
-			    position: absolute;
-			    top: 0;
-			    right: 0;
-			    margin: 5px 5px 0px 0px;
-			    padding-right: 3px;
-			    display: flex;
-			    justify-content: space-between;
-			    align-items: center;
-			    background-color: rgba(255, 255, 255, 1);
-			}
-		
-		</style>
-		
-		<div id="myModal" class="modal">
-		  <div class="modal-content">
-		    <span class="close">&times;</span>
-		    <img class="modal-image" id="modalImage">
-		  </div>
-		</div>
-
-		
-		<div class="center">
-		  <div class="portal-experience-photo">
-		    <% if locals[:experience].images.attached? %>
-		      <div class="carousel-container">
-		        <div id="imageCarousel<%= locals[:experience].id %>" class="carousel slide" data-interval="false">
-		          <div class="carousel-wrap" style="text-align: center;">
-		            <div class="carousel-inner<%= ' no-controls' if locals[:experience].images.size <= 1 %>">
-		              <% locals[:experience].images.each.with_index do |image, i| %>
-		            	<div class="carousel-item <%= 'active' if i == 0 %>">
-							<%= link_to image_tag(image, id: "img-#{i+1}", alt: SecureRandom.uuid), experience_path(locals[:experience]), class: 'modalLink', data: { target: '#myModal', image_url: url_for(image) } %>
-							<div class="flag-elements">
-								<% if current_user.admin %>
-									<label style="font-size: 15px; padding: 0px 8px 0px 3px; font-weight: bold;" for=<%= "img-#{i+1}" %>><%= "img-#{i+1}"%></label>
-								<% end %>
-								<div  class="portal-experience-flag">
-									<div class="<%= if current_user.id || 1==1 then "experience-flagged-yes img" else "experience-flagged-yes-nologin img" end %>
-										<%= if locals[:experience].hasUserFlagged == 1 then "flagged" end %>" id="experience-flagged-<%= locals[:experience].id %>-<%= i %>">
-										<%= locals[:experience].flagCount %>
-									</div>
-								</div>
-							</div>
-		                </div>
-		              <% end %>
-		            </div>
-		          </div>
-		          <% if locals[:experience].images.size > 1 %>
-		            <a class="carousel-control-prev" href="#imageCarousel<%= locals[:experience].id %>" role="button" data-slide="prev">
-		              <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-		              <span class="sr-only">Previous</span>
-		            </a>
-		            <a class="carousel-control-next" href="#imageCarousel<%= locals[:experience].id %>" role="button" data-slide="next">
-		              <span class="carousel-control-next-icon" aria-hidden="true"></span>
-		              <span class="sr-only">Next</span>
-		            </a>
-		          <% end %>
-		        </div>
-		      </div>
-		    <% end %>
-		  </div>
-		</div>
-		
-		<!-- Script for modal -->
-		<script>
-			var modal = document.getElementById("myModal");
-			var modalImg = document.getElementById("modalImage");
-			var captionText = document.getElementById("caption");
-			
-			// When an image in the carousel is clicked; only want it to work when viewing a full experience (not from the home program page)
-			var images = document.getElementsByClassName("modalLink");
-			for (var i = 0; i < images.length; i++) {
-			  images[i].addEventListener("click", function(event) {
-			    event.preventDefault(); // Prevent the default behavior of the link
-			    
-			    // Check if we are on the full experience page
-			    if (window.location.pathname.startsWith("/experience/")) {
-			      modal.style.display = "block";
-			      modalImg.src = this.dataset.imageUrl + '?' + new Date().getTime(); // add this line to refresh the image URL
-			      captionText.innerHTML = this.alt;
-			    }
-			  });
-			}
-			
-			// Close the modal
-			var span = document.getElementsByClassName("close")[0];
-			span.onclick = function() {
-			  modal.style.display = "none";
-			}
-			
-			$('.close').click(function() {
-			  $('#modalImage').attr('src', '');
-			});
-
-		</script>
-			
-		<div class="portal-experience-description">
-			<%= locals[:experience].experience%>
-		</div>
-		<div class="portal-experience-location">
-			<% if not locals[:experience].location.to_s == "" %>
-				<p>visit <a href=<%= "http://maps.google.com/?q=" + locals[:experience].location.to_s.gsub(' ', '%20') + "+" + locals[:experience].street.to_s.gsub(' ', '%20') + "+" + locals[:experience].city.to_s.gsub(' ', '%20') + "+" + locals[:experience].postal_code.to_s.gsub(' ', '%20') %> target="_blank"><%= locals[:experience].location%></a> on Google Maps</p>
-				<br></br>
-				<iframe width="300" height="300" frameborder="0" style="border:0"
-					src=<%= "https://www.google.com/maps/embed/v1/place?key=AIzaSyBZYVMMPTrKi1i_pxf7ByjM2oYl6JRKeeI&q=" + locals[:experience].location.to_s.gsub(' ', '%20') + "+" + locals[:experience].street.to_s.gsub(' ', '%20') + "+" + locals[:experience].city.to_s.gsub(' ', '%20') + "+" + locals[:experience].postal_code.to_s.gsub(' ', '%20') %> target="_blank"><%= locals[:experience].location%>
-					allowfullscreen>
-				</iframe>
-			<%end%>
-		</div>
-		<div class="portal-experience-info">
-			<span class="portal-experience-info-user">
-				<% if locals[:experience].user.avatar.attached? %>
-				  <%= link_to user_path(locals[:experience].user), data: { turbolinks: false } do %>
-				    <%= image_tag(locals[:experience].user.avatar, class: "profile-circle", height: '30', width: '30') %>
-				  <% end %>
-				  <% else %>
-				  	<%= link_to user_path(locals[:experience].user), data: { turbolinks: false } do %>
-				    <%= image_tag(asset_path("profile.jpg"), class: "profile-circle", height: '30', width: '30') %>
-				  <% end %>
-				<% end %>
-			<%= link_to locals[:experience].user.name, user_path(locals[:experience].user), data: { turbolinks: false } %>
-			</span>
-			<span class="portal-experience-info-date">
-				<%= locals[:experience].created_at.strftime("%b %-d, '%y") %>
-			</span>
-			<% if locals[:experience].created_at != locals[:experience].updated_at %>
-			<span class="portal-experience-info-date-updated">
-				updated: <%= locals[:experience].updated_at.strftime("%b %-d, '%y") %>
-			</span>
-			<% end %>
-			<div class="portal-experience-rating-average">
-				Average: <%= locals[:experience].average_rating %>
-			</div>
-		</div>
-         <div class="portal-experience-rating">
-			<% if locals[:experience].rating.nil? %>
-				<%= content_tag :h4, " "%>
-			<% elsif locals[:experience].rating == 0 %>
-			<% elsif locals[:experience].rating == 1 %>
-			<% elsif locals[:experience].rating == 2 %>
-			<% elsif locals[:experience].rating == 3 %>
-			<% elsif locals[:experience].rating == 4 %>
-			<% elsif locals[:experience].rating == 5 %>
-			<% end %>
-         </div>
-     </div>
-     <div class="portal-experience-comments">
-     	<% if locals[:experience].comments&.size.to_i > 0 then %><div class="portal-experience-comment-count<%if locals[:single] == true %>-single<% end %>">Comments: <%= locals[:experience].totalComments %> <span class="down-arrow"><i></i></span></div><% end %>
-     	<% if logged_in? then %><div class="portal-experience-leave-comment" id="wrapper_add_comment_<%= locals[:experience].id %>">
-     		<textarea id="add_comment_<%= locals[:experience].id %>" name="add_comment" placeholder="Leave a comment"></textarea>
-     			<input id="submit_add_comment_<%= locals[:experience].id %>" class="submit_add_comment" type="submit" value="Save Comment">
-     			<% if not @commented and not locals[:experience].commented then %>
-     			<div class="comment_rating_wrapper">
-     				<%= label :rating, "Rating: ", :class => "comment_label" %>
-					<fieldset class="rating">
-						<input type="radio" value="5" name="comment_rating_<%= locals[:experience].id %>" id="comment_rating_5_<%= locals[:experience].id %>" /> <label for="comment_rating_5_<%= locals[:experience].id %>">Rating 5</label> 
-						<input type="radio" value="4" name="comment_rating_<%= locals[:experience].id %>" id="comment_rating_4_<%= locals[:experience].id %>" /> <label for="comment_rating_4_<%= locals[:experience].id %>">Rating 4</label> 
-						<input type="radio" value="3" name="comment_rating_<%= locals[:experience].id %>" id="comment_rating_3_<%= locals[:experience].id %>" /> <label for="comment_rating_3_<%= locals[:experience].id %>">Rating 3</label> 
-						<input type="radio" value="2" name="comment_rating_<%= locals[:experience].id %>" id="comment_rating_2_<%= locals[:experience].id %>" /> <label for="comment_rating_2_<%= locals[:experience].id %>">Rating 2</label> 
-						<input type="radio" value="1" name="comment_rating_<%= locals[:experience].id %>" id="comment_rating_1_<%= locals[:experience].id %>" /> <label for="comment_rating_1_<%= locals[:experience].id %>">Rating 1</label>
-					</fieldset>
-					
-				</div>
-				<% end %>
-			</div><% end %>
-        <% if locals[:experience].comments&.size.to_i > 0 then %>
-        <div class="portal-experience-comments-list<%if locals[:single] == true %>-single<% end %>">
-        	<% locals[:experience].comments.each do |comment| %>
-        		<div class="portal-experience-comment"><%= comment.comment %>
-        			<%if current_user.admin || comment.user_id == current_user.id %><div class="portal-experience-comment-delete" id="portal-experience-comment-delete-<%= comment.id %>">&#10006; </div><% end %>
-        			<div class="comment-author"><%= comment.user_name %> | <%= comment.created_at.strftime("%b %-d, '%y") %></div>
-        			<div class="comment-rating"><%if comment.rating != nil %><img src="<%=asset_path(comment.rating.to_s + "_star2.png")%>" height="16"><% end %></div>
-        		</div>
-        	<% end %>
-        	
-        	<% if locals[:experience].comments.size != locals[:experience].totalComments %><div class="portal-experience-comment-more"><a href="/experience/<%= locals[:experience].id %>">see <%= locals[:experience].totalComments - locals[:experience].comments.size%> more comments</a></div><% end %>
+<div class="portal-experience-wrapper" id="test">
+  <div class="portal-experience">
+  <div class="portal-experience-title">
+    <%= locals[:experience].title %>
+    <div class="portal-experience-icons">			
+      <div class = "bookmark-experience">
+        <div class="<%= if current_user.id then "bookmark-yes" end %>
+          <%= if locals[:experience].hasUserBookmarked == 1 then "bookmarked" end %>" id="experience-bookmark-<%= locals[:experience].id %>">
+          <%= locals[:experience].hasUserBookmarked %>
         </div>
-        <% end %>
-     </div>
+      </div>
+      <div>
+        <%if current_user.admin || locals[:experience].user_id == current_user.id %><div class="portal-experience-delete" id="portal-experience-delete-<%= locals[:experience].id %>">&#10006; </div><% end %>
+      </div>
     </div>
+  </div>
+
+  <% if not locals[:experience].tagArray.nil? %>
+  <div class="portal-experience-tags">
+    <% locals[:experience].tagArray.each do |tag| %>
+      <div class="portal-experience-tag">
+        #<%= tag %>
+      </div>
+    <% end %>
+  </div>
+  <% end %>
+
+ <style>
+    .portal-experience-wrapper {
+      position: relative;
+  }
+
+  .center {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      margin: 0 auto;
+  }
+
+  .carousel-container {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      flex-direction: column;
+      height: 100%;
+  }
+
+  .carousel-inner {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      width: 400px;
+      height: 400px;
+      overflow: hidden;
+  }
+
+  .carousel-item {
+      position: relative;
+      text-align: center;
+      transform: translate(-50%, 0%);
+  }
+
+  .carousel-item img {
+      max-height: 100%;
+      max-width: 100%;
+      object-fit: contain;
+      background-color: black;
+      margin: auto;
+      display: block;
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+  }
+
+  .carousel-item:after {
+      content: '';
+      display: block;
+      padding-top: 100%;
+  }
+
+  .carousel-item::before {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: black;
+      z-index: -1;
+  }
+
+  .carousel-wrap {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100%;
+  }
+
+  .carousel-control-prev,
+  .carousel-control-next {
+      position: absolute;
+      width: 30px;
+      height: 30px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      background-color: rgba(0, 0, 0, 0.5);
+      color: white;
+      font-size: 1.5rem;
+      border: none;
+      cursor: pointer;
+      opacity: 0.5;
+      transition: opacity 0.2s ease-in-out;
+      z-index: 1;
+      border-radius: 50%;
+      top: 50%;
+      transform: translateY(-50%);
+  }
+
+  .carousel-control-prev:hover,
+  .carousel-control-next:hover {
+      opacity: 1;
+  }
+
+  .carousel-control-prev {
+      margin-left: -35px;
+  }
+
+  .carousel-control-next {
+      margin-right: -35px;
+  }
+
+  /* Modal */
+  .modal {
+      display: none;
+      position: fixed;
+      z-index: 2;
+      left: 0;
+      top: 0;
+      width: 100%;
+      height: 100%;
+      overflow: auto;
+      background-color: rgba(0,0,0,0.9);
+  }
+
+  .modal-content {
+      background-color: #fefefe;
+      margin: 5% auto;
+      padding: 20px;
+      border: 1px solid #888;
+      width: 80%;
+      max-width: 700px;
+  }
+
+  .close {
+      color: #aaaaaa;
+      float: right;
+      font-size: 28px;
+      font-weight: bold;
+  }
+
+
+
+  .close:hover,
+  .close:focus {
+    color: #000;
+    text-decoration: none;
+    cursor: pointer;
+  }
+
+  /* Responsive Images in Modal */
+  .modal-content img {
+    max-width: 100%;
+    height: auto;
+  }
+
+  .flag-elements {
+      position: absolute;
+      top: 0;
+      right: 0;
+      margin: 5px 5px 0px 0px;
+      padding-right: 3px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background-color: rgba(255, 255, 255, 1);
+  }
+
+</style>
+
+<div id="myModal" class="modal">
+  <div class="modal-content">
+    <span class="close">&times;</span>
+    <img class="modal-image" id="modalImage">
+  </div>
+</div>
+
+
+<div class="center">
+  <div class="portal-experience-photo">
+    <% if locals[:experience].images.attached? %>
+      <div class="carousel-container">
+        <div id="imageCarousel<%= locals[:experience].id %>" class="carousel slide" data-interval="false">
+          <div class="carousel-wrap" style="text-align: center;">
+            <div class="carousel-inner<%= ' no-controls' if locals[:experience].images.size <= 1 %>">
+              <% locals[:experience].images.each.with_index do |image, i| %>
+              <div class="carousel-item <%= 'active' if i == 0 %>">
+          <%= link_to image_tag(image, id: "img-#{i+1}", alt: SecureRandom.uuid), experience_path(locals[:experience]), class: 'modalLink', data: { target: '#myModal', image_url: url_for(image) } %>
+          <div class="flag-elements">
+            <% if current_user.admin %>
+              <label style="font-size: 15px; padding: 0px 8px 0px 3px; font-weight: bold;" for=<%= "img-#{i+1}" %>><%= "img-#{i+1}"%></label>
+            <% end %>
+            <div  class="portal-experience-flag">
+              <div class="<%= if current_user.id || 1==1 then "experience-flagged-yes img" else "experience-flagged-yes-nologin img" end %>
+                <%= if locals[:experience].hasUserFlagged == 1 then "flagged" end %>" id="experience-flagged-<%= locals[:experience].id %>-<%= i %>">
+                <%= locals[:experience].flagCount %>
+              </div>
+            </div>
+          </div>
+                </div>
+              <% end %>
+            </div>
+          </div>
+          <% if locals[:experience].images.size > 1 %>
+            <a class="carousel-control-prev" href="#imageCarousel<%= locals[:experience].id %>" role="button" data-slide="prev">
+              <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+              <span class="sr-only">Previous</span>
+            </a>
+            <a class="carousel-control-next" href="#imageCarousel<%= locals[:experience].id %>" role="button" data-slide="next">
+              <span class="carousel-control-next-icon" aria-hidden="true"></span>
+              <span class="sr-only">Next</span>
+            </a>
+          <% end %>
+        </div>
+      </div>
+    <% end %>
+  </div>
+</div>
+
+<!-- Script for modal -->
+<script>
+  var modal = document.getElementById("myModal");
+  var modalImg = document.getElementById("modalImage");
+  var captionText = document.getElementById("caption");
+
+  // When an image in the carousel is clicked; only want it to work when viewing a full experience (not from the home program page)
+  var images = document.getElementsByClassName("modalLink");
+  for (var i = 0; i < images.length; i++) {
+    images[i].addEventListener("click", function(event) {
+      event.preventDefault(); // Prevent the default behavior of the link
+
+      // Check if we are on the full experience page
+      if (window.location.pathname.startsWith("/experience/")) {
+        modal.style.display = "block";
+        modalImg.src = this.dataset.imageUrl + '?' + new Date().getTime(); // add this line to refresh the image URL
+        captionText.innerHTML = this.alt;
+      }
+    });
+  }
+
+  // Close the modal
+  var span = document.getElementsByClassName("close")[0];
+  span.onclick = function() {
+    modal.style.display = "none";
+  }
+
+  $('.close').click(function() {
+    $('#modalImage').attr('src', '');
+  });
+
+</script>
+
+<div class="portal-experience-description">
+  <%= locals[:experience].experience%>
+</div>
+<div class="portal-experience-location">
+  <% if not locals[:experience].location.to_s == "" %>
+    <p>visit <a href=<%= "http://maps.google.com/?q=" + locals[:experience].location.to_s.gsub(' ', '%20') + "+" + locals[:experience].street.to_s.gsub(' ', '%20') + "+" + locals[:experience].city.to_s.gsub(' ', '%20') + "+" + locals[:experience].postal_code.to_s.gsub(' ', '%20') %> target="_blank"><%= locals[:experience].location%></a> on Google Maps</p>
+    <br></br>
+    <iframe width="300" height="300" frameborder="0" style="border:0"
+      src=<%= "https://www.google.com/maps/embed/v1/place?key=AIzaSyBZYVMMPTrKi1i_pxf7ByjM2oYl6JRKeeI&q=" + locals[:experience].location.to_s.gsub(' ', '%20') + "+" + locals[:experience].street.to_s.gsub(' ', '%20') + "+" + locals[:experience].city.to_s.gsub(' ', '%20') + "+" + locals[:experience].postal_code.to_s.gsub(' ', '%20') %> target="_blank"><%= locals[:experience].location%>
+      allowfullscreen>
+    </iframe>
+  <%end%>
+</div>
+<div class="portal-experience-info">
+  <span class="portal-experience-info-user">
+    <% if locals[:experience].user.avatar.attached? %>
+      <%= link_to user_path(locals[:experience].user), data: { turbolinks: false } do %>
+        <%= image_tag(locals[:experience].user.avatar, class: "profile-circle", height: '30', width: '30') %>
+      <% end %>
+      <% else %>
+        <%= link_to user_path(locals[:experience].user), data: { turbolinks: false } do %>
+        <%= image_tag(asset_path("profile.jpg"), class: "profile-circle", height: '30', width: '30') %>
+      <% end %>
+    <% end %>
+  <%= link_to locals[:experience].user.name, user_path(locals[:experience].user), data: { turbolinks: false } %>
+  </span>
+  <span class="portal-experience-info-date">
+    <%= locals[:experience].created_at.strftime("%b %-d, '%y") %>
+  </span>
+  <% if locals[:experience].created_at != locals[:experience].updated_at %>
+  <span class="portal-experience-info-date-updated">
+    updated: <%= locals[:experience].updated_at.strftime("%b %-d, '%y") %>
+  </span>
+  <% end %>
+  <div class="portal-experience-rating-average">
+    Average: <%= locals[:experience].average_rating %>
+  </div>
+</div>
+     <div class="portal-experience-rating">
+  <% if locals[:experience].rating.nil? %>
+    <%= content_tag :h4, " "%>
+  <% elsif locals[:experience].rating == 0 %>
+  <% elsif locals[:experience].rating == 1 %>
+  <% elsif locals[:experience].rating == 2 %>
+  <% elsif locals[:experience].rating == 3 %>
+  <% elsif locals[:experience].rating == 4 %>
+  <% elsif locals[:experience].rating == 5 %>
+  <% end %>
+     </div>
+ </div>
+ <div class="portal-experience-comments">
+  <% if locals[:experience].comments&.size.to_i > 0 then %><div class="portal-experience-comment-count<%if locals[:single] == true %>-single<% end %>">Comments: <%= locals[:experience].totalComments %> <span class="down-arrow"><i></i></span></div><% end %>
+  <% if logged_in? then %><div class="portal-experience-leave-comment" id="wrapper_add_comment_<%= locals[:experience].id %>">
+    <textarea id="add_comment_<%= locals[:experience].id %>" name="add_comment" placeholder="Leave a comment"></textarea>
+      <input id="submit_add_comment_<%= locals[:experience].id %>" class="submit_add_comment" type="submit" value="Save Comment">
+      <% if not @commented and not locals[:experience].commented then %>
+      <div class="comment_rating_wrapper">
+        <%= label :rating, "Rating: ", :class => "comment_label" %>
+      <fieldset class="rating">
+        <input type="radio" value="5" name="comment_rating_<%= locals[:experience].id %>" id="comment_rating_5_<%= locals[:experience].id %>" /> <label for="comment_rating_5_<%= locals[:experience].id %>">Rating 5</label> 
+        <input type="radio" value="4" name="comment_rating_<%= locals[:experience].id %>" id="comment_rating_4_<%= locals[:experience].id %>" /> <label for="comment_rating_4_<%= locals[:experience].id %>">Rating 4</label> 
+        <input type="radio" value="3" name="comment_rating_<%= locals[:experience].id %>" id="comment_rating_3_<%= locals[:experience].id %>" /> <label for="comment_rating_3_<%= locals[:experience].id %>">Rating 3</label> 
+        <input type="radio" value="2" name="comment_rating_<%= locals[:experience].id %>" id="comment_rating_2_<%= locals[:experience].id %>" /> <label for="comment_rating_2_<%= locals[:experience].id %>">Rating 2</label> 
+        <input type="radio" value="1" name="comment_rating_<%= locals[:experience].id %>" id="comment_rating_1_<%= locals[:experience].id %>" /> <label for="comment_rating_1_<%= locals[:experience].id %>">Rating 1</label>
+      </fieldset>
+
+    </div>
+    <% end %>
+  </div><% end %>
+    <% if locals[:experience].comments&.size.to_i > 0 then %>
+    <div class="portal-experience-comments-list<%if locals[:single] == true %>-single<% end %>">
+      <% locals[:experience].comments.each do |comment| %>
+        <div class="portal-experience-comment"><%= comment.comment %>
+          <%if current_user.admin || comment.user_id == current_user.id %><div class="portal-experience-comment-delete" id="portal-experience-comment-delete-<%= comment.id %>">&#10006; </div><% end %>
+          <div class="comment-author"><%= comment.user_name %> | <%= comment.created_at.strftime("%b %-d, '%y") %></div>
+          <div class="comment-rating"><%if comment.rating != nil %><img src="<%=asset_path(comment.rating.to_s + "_star2.png")%>" height="16"><% end %></div>
+        </div>
+      <% end %>
+
+      <% if locals[:experience].comments.size != locals[:experience].totalComments %><div class="portal-experience-comment-more"><a href="/experience/<%= locals[:experience].id %>">see <%= locals[:experience].totalComments - locals[:experience].comments.size%> more comments</a></div><% end %>
+    </div>
+    <% end %>
+ </div>
+</div>
