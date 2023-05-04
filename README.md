@@ -93,7 +93,7 @@ https://999663bc4eee4a0cb47c75a9aaa9268b.vfs.cloud9.us-east-1.amazonaws.com
 AND/OR
 https://tripagvisor.herokuapp.com
 ```
-- Insert your hosted site URL + "/auth/google_oauth2/callback" as Authorized redirect URIs. Example:
+- Insert your hosted site URL (same as "https://" + your config.hosts url) + "/auth/google_oauth2/callback" as Authorized redirect URIs. Example:
 ```
 https://999663bc4eee4a0cb47c75a9aaa9268b.vfs.cloud9.us-east-1.amazonaws.com/auth/google_oauth2/callback
 AND/OR
