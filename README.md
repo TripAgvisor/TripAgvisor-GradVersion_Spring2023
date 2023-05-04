@@ -91,13 +91,13 @@ rails server
 ```
 https://999663bc4eee4a0cb47c75a9aaa9268b.vfs.cloud9.us-east-1.amazonaws.com
 AND/OR
-https://tripagvisor.herokuapp.com
+https://tripagvisor2.herokuapp.com
 ```
 - Insert your hosted site URL (same as "https://" + your config.hosts url) + "/auth/google_oauth2/callback" as Authorized redirect URIs. Example:
 ```
 https://999663bc4eee4a0cb47c75a9aaa9268b.vfs.cloud9.us-east-1.amazonaws.com/auth/google_oauth2/callback
 AND/OR
-https://tripagvisor.herokuapp.com/auth/google_oauth2/callback
+https://tripagvisor2.herokuapp.com/auth/google_oauth2/callback
 ```
 - Change the admin email address in /tripAgvisor/config/application.rb so you can login as an administrator for the first time
 - Create a .env file in the root directory. This ensures that your secrets are not exposed. Try not to commit this :)\
