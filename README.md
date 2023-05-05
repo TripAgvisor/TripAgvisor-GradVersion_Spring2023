@@ -116,6 +116,27 @@ After running `rails s` or `rails server`, you should be able to see a link popu
 ### Additonal Notes for Testing 
 The tests (especially the cucumber tests) use Selenium. But AWS Cloud 9 does not support Selenium since it does not support any kind of browsers. So we had to deploy the application on our local machine to implement and run tests. Hence, we would suggest to use the same procedure as mentioned above to deploy the app on local machine instead of AWS Cloud 9. The exact commands for installation might vary based on the operating system you are using. This will not cause any issues. 
 
+### Storing Images in Amazon S3 for persisitency
+- This website allows users to upload images and these images need to be stored somewhere. 
+- The current design is such that for the development environment images are stored in the local machine and for the production environment , the images are stored in the Amazon S3 bucker. Major reason for this being persistency. 
+Following are the steps to configure this :
+- After you [create an AWS account](https://docs.aws.amazon.com/accounts/latest/reference/manage-acct-creating.html), [create a S3 bucket](https://docs.aws.amazon.com/AmazonS3/latest/userguide/create-bucket-overview.html) for the production application. 
+-  In the config > environments > production.rb file , the below line indicates that the storage is set to Amazon S3:
+  ```
+  # Store uploaded files on the local file system (see config/storage.yml for options).
+  config.active_storage.service = :amazon
+  ```
+ - In the config > storage.yaml file make sure have the following configured 
+  ```
+  amazon:
+  service: S3
+  access_key_id: <%= Rails.application.credentials.dig(:aws, :access_key_id) %>
+  secret_access_key: <%= Rails.application.credentials.dig(:aws, :secret_access_key) %>
+  region: <aws region where you create the S3 bucket>
+  bucket: <name of the S3 bucket>
+  ```
+  Make sure you have set the right credentials in the credentials file for ruby on rails. More information regarding ediitng the crednetials can be found in this [link](https://web-crunch.com/posts/the-complete-guide-to-ruby-on-rails-encrypted-credentials). You would have to create a new [IAM user](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_users_create.html) and store the credentials. (access_key_id and secret_access_key)
+  
 ### Useful Resources
 - [Connecting VSCode to Cloud9](https://medium.com/@mahantya/access-your-aws-cloud9-ec2-instance-from-vs-code-over-ssh-ee1f5ea259ff)
 - [Prevent EC2 from randomizing IP on shutdown](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/elastic-ip-addresses-eip.html#using-instance-addressing-eips-allocating)
